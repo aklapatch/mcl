@@ -43,7 +43,7 @@ typedef enum {
 
 #define CA_NUM_OF(arr) (sizeof((arr)) / sizeof((arr)[0]))
 
-#define CA_STRUCT_I_OK(in, i) (CA_STRUCT_OK(in) && i < CA_NUM_OF((in)))
+#define CA_STRUCT_I_OK(in, i) (CA_STRUCT_OK(in) && i < CA_NUM_OF((in).data))
 
 #define CA_LEN_STRUCT(type, arr_len)\
     struct { \
@@ -58,7 +58,7 @@ typedef enum {
 
 #define CA_LEN_STRUCT_OK(in) (CA_STRUCT_OK(in) && (in).mid_canary == CA_CANARY)
 
-#define CA_LEN_STRUCT_I_OK(in) (CA_LEN_STRUCT_OK(in) && i < sizeof((in).data))
+#define CA_LEN_STRUCT_I_OK(in) (CA_LEN_STRUCT_OK(in) && i < CA_NUM_OF((in).data))
 
 ca_err ca_init_mem(void *mem, uintptr_t mem_len, void **mem_start);
 

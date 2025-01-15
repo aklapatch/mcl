@@ -41,7 +41,7 @@ typedef enum {
 
 #define CA_STRUCT_OK(in) ((in).start_canary == CA_CANARY && (in).end_canary == CA_CANARY)
 
-#define CA_STRUCT_I_OK(in, i) (CA_STRUCT_OK(in) && i < sizeof((in).data))
+#define CA_STRUCT_I_OK(in, i) (CA_STRUCT_OK(in) && i < sizeof((in).data) / sizeof((in).data[0]))
 
 #define CA_LEN_STRUCT(type, arr_len)\
     struct { \

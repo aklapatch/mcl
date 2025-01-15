@@ -33,16 +33,22 @@ typedef enum {
 
 #define CA_STRUCT_INIT() { .start_canary = CA_CANARY, .end_canary = CA_CANARY }
 
+#define CA_STRUCT_SETUP(ca_struct) \
+    do {\
+        ca_struct.start_canary = CA_CANARY; \
+        ca_struct.end_canary = CA_CANARY;\
+    } while (0)
+
 #define CA_STRUCT_OK(in) ((in).start_canary == CA_CANARY && (in).end_canary == CA_CANARY)
 
 #define CA_STRUCT_I_OK(in, i) (CA_STRUCT_OK(in) && i < sizeof((in).data))
 
-#define CA_LEN_STRUCT(type, len)\
+#define CA_LEN_STRUCT(type, arr_len)\
     struct { \
         uintptr_t start_canary, \
                   len, \
                   mid_canary; \
-        type data[(len)]; \
+        type data[(arr_len)]; \
         uintptr_t end_canary; \
     }
 

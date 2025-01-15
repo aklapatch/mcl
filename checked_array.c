@@ -48,7 +48,7 @@ ca_err ca_check_mem(const void* mem, uintptr_t mem_len) {
     }
     const uintptr_t canary = CA_CANARY;
     uint8_t *end_canary_ptr = (uint8_t*)mem + mem_len - sizeof(canary);
-    ca_err r = CA_OK;
+    ca_err r = CA_ERR;
     if (CA_OK != (r = ca_align_check_mem(mem, canary)) ||
         CA_OK != (r = ca_align_check_mem(end_canary_ptr, canary))
        ) {}

@@ -7,10 +7,6 @@ typedef struct {
     uint8_t t1[sizeof(uintptr_t)];
 } test_data;
 
-
-
-typedef CA_LEN_STRUCT(test_data, 2) ca_len;
-
 #define CA_ASSERT(act, exp)\
     do {\
         uintptr_t _tmp_act = act,\
@@ -62,6 +58,27 @@ int main(void) {
         CA_ASSERT(CA_STRUCT_OK(t), false);
     }
 
+    {
+        typedef CA_LEN_STRUCT(test_data, 2) ca_two;
+        ca_two t = CA_STRUCT_INIT();
+        CA_ASSERT(t.start_canary, CA_CANARY);
+        CA_ASSERT(t.end_canary, CA_CANARY);
+        CA_ASSERT(CA_STRUCT_OK(t), true);
+
+        CA_ASSERT(CA_STRUCT_I_OK(t, 0), true);
+        CA_ASSERT(CA_STRUCT_I_OK(t, 1), true);
+        CA_ASSERT(CA_STRUCT_I_OK(t, 2), false);
+
+        ca_two *t_p = &t;
+        CA_ASSERT(CA_STRUCT_OK(*t_p), true);
+
+        t.data[0].t1[-1] = 'a';
+        CA_ASSERT(CA_STRUCT_OK(t), false);
+        CA_STRUCT_SETUP(t);
+        CA_ASSERT(CA_STRUCT_OK(t), true);
+        t.data[2].t1[0] = 'a';
+        CA_ASSERT(CA_STRUCT_OK(t), false);
+    }
     printf("Yipee! All tests passed!\n");
     return 0;
 }

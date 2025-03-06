@@ -73,11 +73,11 @@ int main(void) {
         CA_ASSERT(CA_STRUCT_OK(*t_p), true);
 
         t.data[0].t1[-1] = 'a';
-        CA_ASSERT(CA_STRUCT_OK(t), false);
-        CA_STRUCT_SETUP(t);
-        CA_ASSERT(CA_STRUCT_OK(t), true);
+        CA_ASSERT(CA_LEN_STRUCT_OK(t), false);
+        CA_LEN_STRUCT_SETUP(t);
+        CA_ASSERT(CA_LEN_STRUCT_OK(t), true);
         t.data[2].t1[0] = 'a';
-        CA_ASSERT(CA_STRUCT_OK(t), false);
+        CA_ASSERT(CA_LEN_STRUCT_OK(t), false);
     }
     printf("Yipee! All tests passed!\n");
     return 0;

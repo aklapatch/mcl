@@ -56,6 +56,13 @@ typedef enum {
 
 #define CA_LEN_STRUCT_INIT() {.start_canary = CA_CANARY, .mid_canary = CA_CANARY, .end_canary = CA_CANARY}
 
+#define CA_LEN_STRUCT_SETUP(ca_struct) \
+    do {\
+        ca_struct.start_canary = CA_CANARY; \
+        ca_struct.mid_canary = CA_CANARY; \
+        ca_struct.end_canary = CA_CANARY;\
+    } while (0)
+
 #define CA_LEN_STRUCT_OK(in) (CA_STRUCT_OK(in) && (in).mid_canary == CA_CANARY)
 
 #define CA_LEN_STRUCT_I_OK(in) (CA_LEN_STRUCT_OK(in) && i < CA_NUM_OF((in).data))

@@ -17,7 +17,7 @@ static void ca_align_init_mem(void *mem, uintptr_t canary) {
 }
 
 ca_err ca_init_mem(void *mem, uintptr_t mem_len, void **mem_start) {
-    if (sizeof(ca_size_struct) <= mem_len) {
+    if (sizeof(ca_size_struct) >= mem_len) {
         return CA_BUF_OVF;
     }
     const uintptr_t canary = CA_CANARY;

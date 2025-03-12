@@ -43,6 +43,7 @@ int main(void) {
         CA_ASSERT(t.end_canary, CA_CANARY);
         CA_ASSERT(CA_STRUCT_OK(t), true);
 
+        CA_ASSERT(CA_STRUCT_I_OK(t, -1), false);
         CA_ASSERT(CA_STRUCT_I_OK(t, 0), true);
         CA_ASSERT(CA_STRUCT_I_OK(t, 1), true);
         CA_ASSERT(CA_STRUCT_I_OK(t, 2), false);
@@ -78,6 +79,10 @@ int main(void) {
         CA_ASSERT(CA_LEN_STRUCT_OK(t), true);
         t.data[2].t1[0] = 'a';
         CA_ASSERT(CA_LEN_STRUCT_OK(t), false);
+    }
+    {
+        uintptr_t test_mem[3] = {0};
+        CA_ASSERT(ca_init_mem(test_mem, sizeof(test_mem), NULL), CA_OK);
     }
     printf("Yipee! All tests passed!\n");
     return 0;

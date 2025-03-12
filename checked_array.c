@@ -43,7 +43,7 @@ static ca_err ca_align_check_mem(const void* mem, uintptr_t canary) {
 }
 
 ca_err ca_check_mem(const void* mem, uintptr_t mem_len) {
-    if (sizeof(ca_size_struct) <= mem_len) {
+    if (sizeof(ca_size_struct) >= mem_len) {
         return CA_BUF_OVF;
     }
     const uintptr_t canary = CA_CANARY;

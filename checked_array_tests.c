@@ -83,6 +83,28 @@ int main(void) {
     {
         uintptr_t test_mem[3] = {0};
         CA_ASSERT(ca_init_mem(test_mem, sizeof(test_mem), NULL), CA_OK);
+        CA_ASSERT(ca_check_mem(test_mem, sizeof(test_mem)), CA_OK);
+        test_mem[0] = 0;
+        CA_ASSERT(ca_check_mem(test_mem, sizeof(test_mem)), CA_ERR);
+
+        void *mem_start = NULL;
+        CA_ASSERT(ca_init_mem(test_mem, sizeof(test_mem), &mem_start), CA_OK);
+        CA_ASSERT((uintptr_t)mem_start, (uintptr_t)&test_mem[1]);
+        CA_ASSERT(ca_check_mem(test_mem, sizeof(test_mem)), CA_OK);
+        test_mem[2] = 0;
+        CA_ASSERT(ca_check_mem(test_mem, sizeof(test_mem)), CA_ERR);
+
+        // Try with a different elignment to make sure it still works.
+        uint8_t *test_mem8 = ((uint8_t*)test_mem) + 1;
+        uint32_t size8 = sizeof(test_mem) - 1;
+        CA_ASSERT(ca_init_mem(test_mem8, size8, NULL), CA_OK);
+        CA_ASSERT(ca_check_mem(test_mem8, size8), CA_OK);
+        test_mem8[0] = 3;
+        CA_ASSERT(ca_check_mem(test_mem8, size8), CA_ERR);
+
+        CA_ASSERT(ca_init_mem(test_mem8, size8, NULL), CA_OK);
+        test_mem8[size8 - 1] = 4;
+        CA_ASSERT(ca_check_mem(test_mem8, size8), CA_ERR);
     }
     printf("Yipee! All tests passed!\n");
     return 0;
